@@ -1,0 +1,2 @@
+segment_led.c:13:6:displayNum	16	static
+segment_led.c:81:6:displaySegment	8	static

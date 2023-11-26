@@ -1,0 +1,2 @@
+FMS_traffic_light.c:20:6:trafficLightRun	8	static
+FMS_traffic_light.c:128:6:led_blinky	16	static
