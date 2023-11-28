@@ -25,7 +25,8 @@ Core/Src/segment_led.o: ../Core/Src/segment_led.c \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Core/Inc/button.h ../Core/Inc/segment_led.h \
- ../Core/Inc/software_timer.h ../Core/Inc/FSM_traffic_light.h
+ ../Core/Inc/software_timer.h ../Core/Inc/FSM_traffic_light.h \
+ ../Core/Inc/scheduler.h ../Core/Inc/task.h
 
 ../Core/Inc/segment_led.h:
 
@@ -88,3 +89,7 @@ Core/Src/segment_led.o: ../Core/Src/segment_led.c \
 ../Core/Inc/software_timer.h:
 
 ../Core/Inc/FSM_traffic_light.h:
+
+../Core/Inc/scheduler.h:
+
+../Core/Inc/task.h:

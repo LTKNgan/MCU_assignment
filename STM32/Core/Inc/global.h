@@ -13,8 +13,10 @@
 #include "segment_led.h"
 #include "software_timer.h"
 #include "FSM_traffic_light.h"
+#include "scheduler.h"
+#include "task.h"
 
-#define TIME_CYCLE 1
+#define TIME_CYCLE 10
 
 extern int timeRed;
 extern int timeAmber;
