@@ -50,6 +50,8 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -64,40 +66,24 @@ void Error_Handler(void);
 #define BUTTON2_GPIO_Port GPIOC
 #define BUTTON3_Pin GPIO_PIN_15
 #define BUTTON3_GPIO_Port GPIOC
-#define RED_LED1_Pin GPIO_PIN_1
+#define BUTTON_PERD_Pin GPIO_PIN_0
+#define BUTTON_PERD_GPIO_Port GPIOA
+#define RED_PERD_Pin GPIO_PIN_4
+#define RED_PERD_GPIO_Port GPIOA
+#define GREEN_PERD_Pin GPIO_PIN_5
+#define GREEN_PERD_GPIO_Port GPIOA
+#define RED_LED1_Pin GPIO_PIN_7
 #define RED_LED1_GPIO_Port GPIOA
-#define AMBER_LED1_Pin GPIO_PIN_2
+#define AMBER_LED1_Pin GPIO_PIN_8
 #define AMBER_LED1_GPIO_Port GPIOA
-#define GREEN_LED1_Pin GPIO_PIN_3
+#define GREEN_LED1_Pin GPIO_PIN_9
 #define GREEN_LED1_GPIO_Port GPIOA
-#define RED_LED2_Pin GPIO_PIN_4
+#define RED_LED2_Pin GPIO_PIN_10
 #define RED_LED2_GPIO_Port GPIOA
-#define AMBER_LED2_Pin GPIO_PIN_5
+#define AMBER_LED2_Pin GPIO_PIN_11
 #define AMBER_LED2_GPIO_Port GPIOA
-#define GREEN_LED2_Pin GPIO_PIN_6
+#define GREEN_LED2_Pin GPIO_PIN_12
 #define GREEN_LED2_GPIO_Port GPIOA
-#define EN0_Pin GPIO_PIN_7
-#define EN0_GPIO_Port GPIOA
-#define SM_a_Pin GPIO_PIN_0
-#define SM_a_GPIO_Port GPIOB
-#define SM_b_Pin GPIO_PIN_1
-#define SM_b_GPIO_Port GPIOB
-#define SM_c_Pin GPIO_PIN_2
-#define SM_c_GPIO_Port GPIOB
-#define EN1_Pin GPIO_PIN_8
-#define EN1_GPIO_Port GPIOA
-#define EN2_Pin GPIO_PIN_9
-#define EN2_GPIO_Port GPIOA
-#define EN3_Pin GPIO_PIN_10
-#define EN3_GPIO_Port GPIOA
-#define SM_d_Pin GPIO_PIN_3
-#define SM_d_GPIO_Port GPIOB
-#define SM_e_Pin GPIO_PIN_4
-#define SM_e_GPIO_Port GPIOB
-#define SM_f_Pin GPIO_PIN_5
-#define SM_f_GPIO_Port GPIOB
-#define SM_g_Pin GPIO_PIN_6
-#define SM_g_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
