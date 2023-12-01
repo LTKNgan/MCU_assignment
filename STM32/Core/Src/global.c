@@ -16,4 +16,10 @@ int timeGreen;
 int traffic_status = INIT;
 int blinky_status = INIT;
 
-int segment_buffer[] = {0, 0, 0, 0};
+char str[50];
+
+TIM_HandleTypeDef htim3;
+
+UART_HandleTypeDef huart2;
+
+int segment_buffer[4] = {0,0,0,0};
