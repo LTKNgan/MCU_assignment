@@ -10,12 +10,10 @@
 
 #include "global.h"
 
-extern int timer1_flag;
-extern int timer2_flag;
-
-void setTimer1(int duration);
-void setTimer2(int duration);
-
+//Variables use for timer
+extern int timer_flag[];
+extern int timer_duration[];
+void setTimer(int duration, int index);
 void timerRun();
 
 #endif /* INC_SOFTWARE_TIMER_H_ */
