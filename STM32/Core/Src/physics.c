@@ -19,10 +19,10 @@ void turnOnAllLED(void){
 				| AMBER_LED2_Pin | GREEN_LED1_Pin | GREEN_LED2_Pin | RED_PERD_Pin | GREEN_PERD_Pin, 0);
 }
 
-//AUTO MODE:
+//AUTO / MANUAL MODE:
 //turn on the led with index:	0: way 1
 //								1: way 2
-void autoRed(int index){
+void turnOnRed(int index){
 	if (index == 0){
 		HAL_GPIO_WritePin(GPIOA, RED_LED1_Pin, 0);
 		HAL_GPIO_WritePin(GPIOA, AMBER_LED1_Pin | GREEN_LED1_Pin, 1);
@@ -32,7 +32,9 @@ void autoRed(int index){
 		HAL_GPIO_WritePin(GPIOA, AMBER_LED2_Pin | GREEN_LED2_Pin, 1);
 	}
 }
-void autoAmber(int index){
+//turn on the led with index:	0: way 1
+//								1: way 2
+void turnOnAmber(int index){
 	if (index == 0){
 		HAL_GPIO_WritePin(GPIOA, AMBER_LED1_Pin, 0);
 		HAL_GPIO_WritePin(GPIOA, RED_LED1_Pin | GREEN_LED1_Pin, 1);
@@ -43,7 +45,9 @@ void autoAmber(int index){
 	}
 }
 
-void AutoGreen(int index){
+//turn on the led with index:	0: way 1
+//								1: way 2
+void turnOnGreen(int index){
 	if (index == 0){
 		HAL_GPIO_WritePin(GPIOA, GREEN_LED1_Pin, 0);
 		HAL_GPIO_WritePin(GPIOA, RED_LED1_Pin | AMBER_LED1_Pin, 1);

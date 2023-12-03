@@ -14,12 +14,12 @@ void turnOnAllLED(void);
 
 void clearRoadLed(void);
 
-//AUTO MODE:
+//AUTO / MANUAL MODE:
 //turn on the led with index:	0: way 1
 //								1: way 2
-void autoRed(int index);
-void autoAmber(int index);
-void AutoGreen(int index);
+void turnOnRed(int index);
+void turnOnAmber(int index);
+void turnOnGreen(int index);
 
 //TUNING MODE:
 //Blink the suitable led
