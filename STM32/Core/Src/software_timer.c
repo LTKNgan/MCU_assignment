@@ -8,49 +8,29 @@
 
 #include "software_timer.h"
 
+//	Array of timer variable
+//	timer_counter[0]:	main counter with F = 1HZ
+//	timer_counter[1]:	counter for blink with F = 2HZ
+//	timer_counter[2]:
+//	timer_counter[3]:
+
+int timer_counter[NUM_TIMER] = {0};
+int timer_flag[NUM_TIMER] = {0};
+int timer_duration[NUM_TIMER] = {1000, 250, 0, 0};
+
 // set timer flag and timer counter
-int timer1_flag = 0;
-int timer1_counter = 0;
-
-int timer2_flag = 0;
-int timer2_counter = 0;
-
-// set timer function
-void setTimer1(int duration) {
-	timer1_counter = duration/TIME_CYCLE;
-	timer1_flag = 0;
+void setTimer(int duration, int index){
+	timer_counter[index] = duration / TIME_CYCLE;
+	timer_flag[index] = 0;
 }
 
-void setTimer2(int duration) {
-	timer2_counter = duration/TIME_CYCLE;
-	timer2_flag = 0;
-}
-
-// timer run function
-void timer1Run() {
-	if (timer1_counter > 0)
-	{
-		timer1_counter--;
-		if (timer1_counter <= 0)
-		{
-			timer1_flag = 1;
+void timerRun(){
+	for (int i = 0; i < NUM_TIMER; i++){
+		if (timer_counter[i] > 0){
+			timer_counter[i]--;
+			if (timer_counter[i] <= 0){
+				timer_flag[i] = 1;
+			}
 		}
 	}
-}
-
-void timer2Run() {
-	if (timer2_counter > 0)
-	{
-		timer2_counter--;
-		if (timer2_counter <= 0)
-		{
-			timer2_flag = 1;
-		}
-	}
-}
-
-/////////////////////
-void timerRun() {
-	timer1Run();
-	timer2Run();
 }
