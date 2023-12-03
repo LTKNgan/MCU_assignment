@@ -36,7 +36,7 @@ void getButtonValue(void) {
 			if (listButton[i].oldState != listButton[i].keyget3){
 				listButton[i].oldState = listButton[i].keyget3;
 				if (listButton[i].keyget3 == PRESSED){
-					listButton[i].shortPress += 1;
+					listButton[i].shortPress = 1;
 					listButton[i].timePress = KEY_PRESS_TIME / TIME_CYCLE;
 				}
 				else if (listButton[i].keyget3 == RELEASE){
@@ -48,7 +48,7 @@ void getButtonValue(void) {
 				listButton[i].timePress--;
 				if (listButton[i].timePress == 0){
 					listButton[i].longPress = 1;
-					listButton[i].shortPress = 0;
+					listButton[i].shortPress = 0; // When press time >= KEY_PRESS_TIME -> long press -> terminate short press
 				}
 			}
 		}
@@ -66,7 +66,6 @@ void getButtonValue(void) {
 
 int isButtonShortPress(int index){
 	if (listButton[index].shortPress == 2){
-
 		listButton[index].shortPress = 0;
 		return 1;
 	}

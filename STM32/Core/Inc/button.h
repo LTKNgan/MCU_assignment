@@ -13,7 +13,7 @@
 
 #define PRESSED 0
 #define RELEASE 1
-#define KEY_PRESS_TIME 700
+#define KEY_PRESS_TIME 1000
 
 
 void getButtonValue(void);
