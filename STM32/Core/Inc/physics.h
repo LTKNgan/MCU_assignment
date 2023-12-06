@@ -8,6 +8,8 @@
 #ifndef INC_PHYSICS_H_
 #define INC_PHYSICS_H_
 
+#include "global.h"
+
 void turnOffAllLED(void);
 
 void turnOnAllLED(void);
@@ -31,9 +33,9 @@ void blinkyGreen(void);
  * @brief: set the pedestrian led
  *
  * @param:	0	-	RED
- * 			1	-	AMBER
- * 			2	-	GREEN
+ * 			1	-	GREEN
  * @retval: None
  */
 void setPedestrianLed(int index);
+void unsetPedestrianLed(int index);
 #endif /* INC_PHYSICS_H_ */

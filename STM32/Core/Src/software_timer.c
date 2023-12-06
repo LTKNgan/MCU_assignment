@@ -10,13 +10,13 @@
 
 //	Array of timer variable
 //	timer_counter[0]:	counter for auto mode with F = 1HZ
-//	timer_counter[1]:	counter for blink with F = 2HZ
+//	timer_counter[1]:	counter for blink with F = 4HZ
 //	timer_counter[2]:	for pedestrian count down, = 4*timeRed
 //	timer_counter[3]:	counter for buzzer
 
 int timer_counter[NUM_TIMER] = {0};
 int timer_flag[NUM_TIMER] = {0};
-int timer_duration[NUM_TIMER] = {1000, 500, 0, 0};
+int timer_duration[NUM_TIMER] = {1000, 250, 0, 0};
 
 // set timer flag and timer counter
 void setTimer(int duration, int index){
