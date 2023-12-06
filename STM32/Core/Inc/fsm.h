@@ -13,6 +13,6 @@
 
 void fsm_switch_mode(void);
 void fsm_traffic(void);
-void clock_counter_update(void);
+void clock_counter_traffic_update(void);
 
 #endif /* INC_FSM_H_ */

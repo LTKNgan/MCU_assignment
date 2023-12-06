@@ -99,7 +99,7 @@ void setBuzzer(void){
 	case OFF:
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
 		if (timer_flag[3]) {
-			setTimer(Buzzer.period, 3);
+			setTimer(100, 3);
 			Buzzer.status = ON;
 		}
 		break;
@@ -119,7 +119,8 @@ void setBuzzer(void){
 void fsm_pedestrian(void){
 	switch(pedStatus){
 	case OFF:
-		// do nothing
+		unsetPedestrianLed(0);
+		unsetPedestrianLed(1);
 		break;
 	case INIT:
 		if (autoStatus == RED_GREEN || autoStatus == RED_AMBER) pedStatus = GREEN_PED;
@@ -127,20 +128,21 @@ void fsm_pedestrian(void){
 		Buzzer.status = INIT;
 		break;
 	case GREEN_PED:
-		setPedestrianLed(2);
+		setPedestrianLed(1);
 		if (clock_counter_main <= 3 && clock_counter_main > 0) {
 			Buzzer.period = clock_counter_main*100;
-			Buzzer.volume = 8000/clock_counter_main;
+			Buzzer.volume = 12000/clock_counter_main;
 			setBuzzer();
 		}
-		if (clock_counter_main == 0) {
+		if (clock_counter_main <= 0) {
 			pedStatus = RED_PED;
+			Buzzer.status = OFF;
+			setBuzzer();
 		}
-		else
 		break;
 	case RED_PED:
 		setPedestrianLed(0);
-		if (clock_counter_side == 0) {
+		if (clock_counter_side <= 0) {
 			pedStatus = GREEN_PED;
 		}
 		break;
@@ -211,6 +213,7 @@ void fsm_traffic_tunning_mode(void){
 		tuningStatus = RED_ADJ;
 		clearRoadLed();
 		logNewTime();
+		setTimer(timer_duration[1], 1);
 		break;
 	case RED_ADJ:
 		blinkyRed();
@@ -222,24 +225,6 @@ void fsm_traffic_tunning_mode(void){
 		else if (isButtonLongPress(2)){
 			timeRed--;
 			if (timeRed < 0) timeRed = 99;
-			logNewTime();
-		}
-		else if (isButtonShortPress(1)){
-			tuningStatus = AMBER_ADJ;
-			clearRoadLed();
-			logNewTime();
-		}
-		break;
-	case AMBER_ADJ:
-		blinkyAmber();
-		if (isButtonShortPress(2)){
-			timeAmber++;
-			if (timeAmber > 99) timeAmber = 0;
-			logNewTime();
-		}
-		else if(isButtonLongPress(2)){
-			timeAmber--;
-			if (timeAmber < 0) timeAmber = 99;
 			logNewTime();
 		}
 		else if (isButtonShortPress(1)){
@@ -261,11 +246,30 @@ void fsm_traffic_tunning_mode(void){
 			logNewTime();
 		}
 		else if(isButtonShortPress(1)){
+			tuningStatus = AMBER_ADJ;
+			clearRoadLed();
+			logNewTime();
+		}
+		break;
+	case AMBER_ADJ:
+		blinkyAmber();
+		if (isButtonShortPress(2)){
+			timeAmber++;
+			if (timeAmber > 99) timeAmber = 0;
+			logNewTime();
+		}
+		else if(isButtonLongPress(2)){
+			timeAmber--;
+			if (timeAmber < 0) timeAmber = 99;
+			logNewTime();
+		}
+		else if (isButtonShortPress(1)){
 			tuningStatus = RED_ADJ;
 			clearRoadLed();
 			logNewTime();
 		}
 		break;
+
 	default:
 		break;
 	}
@@ -281,9 +285,12 @@ void fsm_switch_mode(void){
 			autoStatus= OFF;
 			tuningStatus = OFF;
 			pedStatus = OFF;
+			fsm_pedestrian();
 		}
 		else {
 			trafficMode = INIT;
+			HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "!SWITCH TO AUTO MODE#\r\n"),500);
+
 		}
 	}
 	else if (isButtonLongPress(1)){
@@ -295,9 +302,11 @@ void fsm_switch_mode(void){
 			autoStatus = OFF;
 			manualStatus = OFF;
 			pedStatus = OFF;
+			fsm_pedestrian();
 		}
 		else {
 			trafficMode = INIT;
+			HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "!SWITCH TO AUTO MODE#\r\n"),500);
 		}
 	}
 }
@@ -315,7 +324,6 @@ void fsm_traffic(void){
 		}
 		else {
 			trafficMode = AUTO_MODE;
-			HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "!SWITCH TO AUTO MODE#\r\n"),500);
 			autoStatus = INIT;
 			manualStatus = OFF;
 			tuningStatus = OFF;
@@ -325,15 +333,15 @@ void fsm_traffic(void){
 		turnOffAllLED();
 		break;
 	case AUTO_MODE:
-		if (isButtonShortPress(2)) {
+		if (isButtonShortPress(3)) {
 			if (pedStatus == OFF) {
 				pedStatus = INIT;
-				setTimer(4*timeRed, 2);
+				setTimer(4*1000*timeRed, 2);
 			}
 			else pedStatus = OFF;
 		}
 		if (timer_flag[2] == 1) pedStatus = OFF;
-		if (pedStatus != OFF) fsm_pedestrian();
+		fsm_pedestrian();
 		fsm_traffic_auto_mode();
 		break;
 	case MANUAL_MODE:
@@ -351,7 +359,7 @@ void clock_counter_traffic_update(void){
 	if((timer_flag[0] == 1) && (trafficMode == AUTO_MODE)){
 		clock_counter_main--;
 		clock_counter_side--;
-		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "!7SEG WAY1:%d#\r\n",clock_counter_main),500);
+		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "\n!7SEG WAY1:%d#\r\n",clock_counter_main),500);
 		HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "!7SEG WAY2:%d#\r\n",clock_counter_side),500);
 		if (pedStatus != OFF) {
 			if (pedStatus == GREEN_PED)
