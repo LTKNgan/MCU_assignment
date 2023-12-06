@@ -35,5 +35,5 @@ void blinkyGreen(void);
  * 			2	-	GREEN
  * @retval: None
  */
-void setPerdestrianLed(int index);
+void setPedestrianLed(int index);
 #endif /* INC_PHYSICS_H_ */
