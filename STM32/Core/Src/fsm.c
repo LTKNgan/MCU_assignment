@@ -121,6 +121,8 @@ void fsm_pedestrian(void){
 	case OFF:
 		unsetPedestrianLed(0);
 		unsetPedestrianLed(1);
+		Buzzer.status = OFF;
+		setBuzzer();
 		break;
 	case INIT:
 		if (autoStatus == RED_GREEN || autoStatus == RED_AMBER) pedStatus = GREEN_PED;
