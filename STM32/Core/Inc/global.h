@@ -10,18 +10,24 @@
 
 #include "main.h"
 #include "button.h"
-#include "software_timer.h"
-#include "FSM_traffic_light.h"
+#include "fsm.h"
+#include "physics.h"
 #include "scheduler.h"
-#include "task.h"
+#include "software_timer.h"
 #include <stdio.h>
 
 #define TIME_CYCLE	10
 #define NUM_TIMER	4
 
-#define	INIT	10
-#define OFF		0
+//global init and off status
+#define	INIT		10
+#define OFF			0
 
+//MODE OF SYSTEM
+#define AUTO_MODE 	1
+#define MANUAL_MODE 2
+#define TUNING_MODE 3
+#define ERROR_MODE	4
 //STATE for AUTO / MANUAL SETTING
 #define	RED_GREEN	1
 #define	RED_AMBER	2
@@ -37,9 +43,12 @@ extern int timeRed;
 extern int timeAmber;
 extern int timeGreen;
 
-extern int traffic_status;
-extern int blinky_status;
+//STATE for PEDESTRIAN
+#define RED_PED		1
+#define GREEN_PED	2
 
+//STATUS of buzzer
+#define ON			1
 
 //String use for UART
 extern char str[];
@@ -55,6 +64,6 @@ extern UART_HandleTypeDef huart2;
 extern int autoStatus;
 extern int manualStatus;
 extern int tuningStatus;
-extern int perdStatus;
+extern int pedStatus;
 
 #endif /* INC_GLOBAL_H_ */

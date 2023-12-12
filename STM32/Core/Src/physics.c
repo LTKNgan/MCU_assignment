@@ -6,8 +6,6 @@
  */
 
 #include "physics.h"
-#include "main.h"
-#include "global.h"
 
 void turnOffAllLED(void){
 	HAL_GPIO_WritePin(GPIOA, RED_LED1_Pin | RED_LED2_Pin |AMBER_LED1_Pin
@@ -90,8 +88,7 @@ void clearRoadLed(void){
  * @brief: set the pedestrian led
  *
  * @param:	0	-	RED
- * 			1	-	AMBER
- * 			2	-	GREEN
+ * 			1	-	GREEN
  * @retval: None
  */
 void setPedestrianLed(int index){
@@ -100,11 +97,14 @@ void setPedestrianLed(int index){
 		HAL_GPIO_WritePin(GPIOA, GREEN_PERD_Pin, 1);
 	}
 	else if (index == 1){
-		HAL_GPIO_WritePin(GPIOA, RED_PERD_Pin, 0);
-		HAL_GPIO_WritePin(GPIOA, GREEN_PERD_Pin, 0);
-	}
-	else if (index == 2){
 		HAL_GPIO_WritePin(GPIOA, RED_PERD_Pin, 1);
 		HAL_GPIO_WritePin(GPIOA, GREEN_PERD_Pin, 0);
 	}
+}
+
+void unsetPedestrianLed(int index) {
+	if (index == 0)
+		HAL_GPIO_WritePin(GPIOA, RED_PERD_Pin, 1);
+	else if (index == 1)
+		HAL_GPIO_WritePin(GPIOA, GREEN_PERD_Pin, 1);
 }
