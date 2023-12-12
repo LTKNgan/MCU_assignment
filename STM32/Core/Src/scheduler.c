@@ -2,18 +2,16 @@
  * scheduler.c
  *
  *  Created on: Nov 28, 2023
- *      Author: DELL
+ *      Author: KNgan
  */
 
 #include "scheduler.h"
-
 #include <stdlib.h>
 
 struct sTask{
 	void (* pTask)(void);
 	uint32_t Delay;
 	uint32_t Period;
-	uint8_t RunMe;
 	struct sTask *next;
 };
 
@@ -25,18 +23,12 @@ struct container {
 
 struct container* container;
 
-void SCH_Init(void);
-void SCH_Add_Task(void(*pFunction)(), uint32_t DELAY, uint32_t PERIOD);
-void SCH_Update(void);
-void SCH_Dispatch_Tasks(void);
-void SCH_Delete_Task(struct sTask** preDel);
 
 struct sTask* Add_Node(struct sTask** curr, void(*pFunction)(), uint32_t DELAY, uint32_t PERIOD) {
     struct sTask *temp = (struct sTask*)malloc(sizeof(struct sTask));
     temp -> pTask = pFunction;
     temp -> Delay = DELAY;
     temp -> Period = PERIOD;
-    temp -> RunMe = 0;
     if (curr == NULL || *curr == NULL) {
         temp -> next = temp;
     }
@@ -81,7 +73,6 @@ void SCH_Add_Task(void(*pFunction)(), uint32_t DELAY, uint32_t PERIOD) {
 					container -> tail -> pTask = pFunction;
 					container -> tail -> Delay = newDelay;
 					container -> tail -> Period = PERIOD;
-					container -> tail -> RunMe = 0;
 					struct sTask *newTail = temp -> next;
 					while (newTail -> next != container -> tail) {
 						newTail = newTail -> next;
@@ -102,7 +93,6 @@ void SCH_Add_Task(void(*pFunction)(), uint32_t DELAY, uint32_t PERIOD) {
 					temp -> next -> pTask = pFunction;
 					temp -> next -> Delay = DELAY - sumDelay;
 					temp -> next -> Period = PERIOD;
-					temp -> next -> RunMe = 0;
                     (container -> emptySlot)--;
 					break;
 				}
@@ -128,7 +118,6 @@ void SCH_Delete_Task(struct sTask** preDel) {
 	del -> pTask = 0x0000;
 	del -> Delay = 0;
 	del -> Period = 0;
-	del -> RunMe = 0;
 	if (*preDel == container -> tail)
 		container -> tail = container -> tail -> next;
 	else {
@@ -144,20 +133,16 @@ void SCH_Delete_Task(struct sTask** preDel) {
 
 
 void SCH_Update(void) {
-	if (container -> tail && container -> tail -> next -> RunMe == 0) {
+	if (container -> tail) {
 		if (container -> tail -> next -> Delay > 0)
 			(container -> tail -> next -> Delay)--;
-		if (container -> tail -> next -> Delay == 0) {
-			container -> tail -> next -> RunMe = 1;
-		}
 	}
 }
 
 
 void SCH_Dispatch_Tasks(void) {
-	while (container -> tail -> next -> RunMe > 0) {
+	while (container -> tail -> next -> Delay <= 0) {
 		(*(container -> tail -> next -> pTask))();
-		container -> tail -> next -> RunMe = 0;
 		struct sTask temp = *(container -> tail -> next);
 		SCH_Delete_Task(&(container -> tail));
 		if (temp.Period != 0) {
@@ -165,4 +150,3 @@ void SCH_Dispatch_Tasks(void) {
 		}
 	}
 }
-

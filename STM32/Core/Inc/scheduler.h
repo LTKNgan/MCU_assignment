@@ -2,14 +2,11 @@
  * scheduler.h
  *
  *  Created on: Nov 28, 2023
- *      Author: DELL
+ *      Author: KNgan
  */
 
 #ifndef INC_SCHEDULER_H_
 #define INC_SCHEDULER_H_
-
-#define SCH_MAX_TASK	10
-#define NO_TASK_ID 		0
 
 #include "global.h"
 
