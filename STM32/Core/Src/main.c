@@ -32,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-enum {MODE1, MODE2, MODE3, MODE4};
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -98,105 +98,28 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 
-  timeRed = 5;
-  timeGreen = 3;
-  timeAmber = 2;
-  int btn1_status = MODE1;
-  int counter;
+  setTimer(timer_duration[0], 0);
+
+  SCH_Init();
+
+  SCH_Add_Task(fsm_traffic, 0, 1);
+  SCH_Add_Task(clock_counter_traffic_update, 0, 1);
+  SCH_Add_Task(fsm_switch_mode, 0, 1);
+  SCH_Add_Task(timerRun, 0, 1);
+  SCH_Add_Task(getButtonValue, 0, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
   while (1)
   {
-	  switch (btn1_status) {
-	  case MODE1:
-		  if (timeRed != timeGreen + timeAmber) {
-				allLEDoff();
-				segment_buffer[0] = -1;
-				segment_buffer[1] = -1;
-				segment_buffer[2] = -1;
-				segment_buffer[3] = -1;
-		  }
-		  else trafficLightRun();
-		  displaySegment();
-		  if (isButton1Pressed()) {
-			  btn1_status = MODE2;
-			  blinky_status = INIT;
-			  counter = timeRed;
-		  }
-
-		  break;
-	  case MODE2:
-	      led_blinky(RED);
-	      // MODE of button 1
-	      segment_buffer[0] = 0;
-	      segment_buffer[1] = 2;
-	      // count up of red led
-	      segment_buffer[2] = counter/10;
-	      segment_buffer[3] = counter%10;
-	      displaySegment();
-	      if (isButton1Pressed()) {
-	          btn1_status = MODE3;
-	          // init for mode 3
-	          blinky_status = INIT;
-	          counter = timeAmber;
-	      }
-		  else if (isButton2Pressed()) {
-			  counter++;
-			  if (counter > 99) counter = 1;
-		  }
-		  else if (isButton3Pressed()) timeRed = counter;
-		  break;
-	  case MODE3:
-		  led_blinky(AMBER);
-		  // MODE of button 1
-		  segment_buffer[0] = 0;
-		  segment_buffer[1] = 3;
-		  // count up of amber led
-		  segment_buffer[2] = counter/10;
-		  segment_buffer[3] = counter%10;
-		  displaySegment();
-		  if (isButton1Pressed()) {
-			  btn1_status = MODE4;
-			  // init for mode 4
-			  blinky_status = INIT;
-			  counter = timeGreen;
-		  }
-		  else if (isButton2Pressed()) {
-			  counter++;
-			  if (counter > 99) counter = 1;
-		  }
-		  else if (isButton3Pressed()) timeAmber = counter;
-		  break;
-	  case MODE4:
-		  led_blinky(GREEN);
-		  // MODE of button 1
-		  segment_buffer[0] = 0;
-		  segment_buffer[1] = 4;
-		  // count up of green led
-		  segment_buffer[2] = counter/10;
-		  segment_buffer[3] = counter%10;
-		  displaySegment();
-		  if (isButton1Pressed()) {
-			  btn1_status = MODE1;
-			  // init for traffic light in mode 1
-			  traffic_status = INIT;
-		  }
-		  else if (isButton2Pressed()) {
-			  counter++;
-			  if (counter > 99) counter = 1;
-		  }
-		  else if (isButton3Pressed()) timeGreen = counter;
-		  break;
-	  default:
-		  break;
-	  }
+	  SCH_Dispatch_Tasks();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
   }
   /* USER CODE END 3 */
 }
@@ -293,6 +216,7 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 0 */
 
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
 
@@ -304,7 +228,16 @@ static void MX_TIM3_Init(void)
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 7999;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
   {
     Error_Handler();
@@ -406,8 +339,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	timerRun();
-	getButtonValue();
+	SCH_Update();
 }
 
 /* USER CODE END 4 */

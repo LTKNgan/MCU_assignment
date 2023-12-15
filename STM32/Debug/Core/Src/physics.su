@@ -1,0 +1,11 @@
+physics.c:10:6:turnOffAllLED	8	static
+physics.c:15:6:turnOnAllLED	8	static
+physics.c:23:6:turnOnRed	16	static
+physics.c:35:6:turnOnAmber	16	static
+physics.c:48:6:turnOnGreen	16	static
+physics.c:61:6:blinkyRed	8	static
+physics.c:68:6:blinkyAmber	8	static
+physics.c:75:6:blinkyGreen	8	static
+physics.c:82:6:clearRoadLed	8	static
+physics.c:94:6:setPedestrianLed	16	static
+physics.c:105:6:unsetPedestrianLed	16	static

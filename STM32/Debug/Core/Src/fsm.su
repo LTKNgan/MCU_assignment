@@ -1,0 +1,9 @@
+fsm.c:35:6:fsm_traffic_auto_mode	8	static
+fsm.c:93:6:setBuzzer	8	static
+fsm.c:119:6:fsm_pedestrian	8	static
+fsm.c:157:6:fsm_traffic_manual_mode	8	static
+fsm.c:204:6:logNewTime	8	static
+fsm.c:210:6:fsm_traffic_tunning_mode	8	static
+fsm.c:280:6:fsm_switch_mode	8	static
+fsm.c:316:6:fsm_traffic	8	static
+fsm.c:360:6:clock_counter_traffic_update	8	static

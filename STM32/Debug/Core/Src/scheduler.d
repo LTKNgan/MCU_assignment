@@ -24,9 +24,9 @@ Core/Src/scheduler.o: ../Core/Src/scheduler.c ../Core/Inc/scheduler.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
- ../Core/Inc/button.h ../Core/Inc/segment_led.h \
- ../Core/Inc/software_timer.h ../Core/Inc/FSM_traffic_light.h \
- ../Core/Inc/scheduler.h ../Core/Inc/task.h
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
+ ../Core/Inc/button.h ../Core/Inc/fsm.h ../Core/Inc/physics.h \
+ ../Core/Inc/scheduler.h ../Core/Inc/software_timer.h
 
 ../Core/Inc/scheduler.h:
 
@@ -82,14 +82,14 @@ Core/Src/scheduler.o: ../Core/Src/scheduler.c ../Core/Inc/scheduler.h \
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+
 ../Core/Inc/button.h:
 
-../Core/Inc/segment_led.h:
+../Core/Inc/fsm.h:
 
-../Core/Inc/software_timer.h:
-
-../Core/Inc/FSM_traffic_light.h:
+../Core/Inc/physics.h:
 
 ../Core/Inc/scheduler.h:
 
-../Core/Inc/task.h:
+../Core/Inc/software_timer.h:
