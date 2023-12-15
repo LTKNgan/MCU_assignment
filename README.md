@@ -13,3 +13,6 @@ Design physical layer
 
 ### dev/fsm 
 Design all fsm for the system
+
+### dev/final
+Change setting and run the project, add the simulation project
